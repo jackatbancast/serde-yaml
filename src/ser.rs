@@ -339,6 +339,24 @@ where
                 Ok(ScalarStyle::SingleQuoted)
             }
 
+            #[cfg(feature = "yaml-1.1")]
+            fn visit_str<E>(self, _v: &str) -> Result<Self::Value, E> {
+                // Pre YAML-1.2 we had to deal with the possibility of
+                // yes and no (and more) being interpreted as booleans.
+                //
+                // YAML-1.2 changes this behavior to more closely
+                // match other configuration languages.  Pre YAML-1.2
+                // code still exists in many places so this branch of
+                // logic exists to provide interoperability with those
+                // systems.
+                Ok(match _v {
+                    "yes" | "y" | "Y" | "YES" | "on" | "ON" | "off" | "OFF" | "no" | "n" | "N"
+                    | "NO" => ScalarStyle::SingleQuoted,
+                    _ => ScalarStyle::Any,
+                })
+            }
+
+            #[cfg(not(feature = "yaml-1.1"))]
             fn visit_str<E>(self, _v: &str) -> Result<Self::Value, E> {
                 Ok(ScalarStyle::Any)
             }

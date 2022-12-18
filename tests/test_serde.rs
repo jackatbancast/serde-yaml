@@ -189,6 +189,18 @@ fn test_vec() {
 }
 
 #[test]
+fn test_yes_no() {
+    let thing = vec!["x".to_owned(), "no".to_owned(), "yes".to_owned()];
+    let yaml = indoc! {"
+        - x
+        - 'no'
+        - 'yes'
+    "};
+
+    test_serde(&thing, yaml);
+}
+
+#[test]
 fn test_map() {
     let mut thing = BTreeMap::new();
     thing.insert("x".to_owned(), 1);

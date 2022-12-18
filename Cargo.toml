@@ -10,6 +10,7 @@ keywords = ["yaml", "serde", "serialization"]
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/dtolnay/serde-yaml"
 rust-version = "1.58"
+default-features = ["yaml-1.1"]
 
 [dependencies]
 indexmap = { version = "1.9", features = ["std"] }
@@ -25,6 +26,9 @@ serde_derive = "1.0"
 
 [lib]
 doc-scrape-examples = false
+
+[features]
+"yaml-1.1"=[]
 
 [package.metadata.docs.rs]
 targets = ["x86_64-unknown-linux-gnu"]
